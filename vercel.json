@@ -1,0 +1,12 @@
+{
+  "buildCommand": "bun run build",
+  "outputDirectory": "output",
+  "installCommand": "bun install",
+  "redirects": [
+    {
+      "source": "/.well-known/farcaster.json",
+      "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/0199fa45-c910-8eed-f401-e04e620acf4c",
+      "statusCode": 307
+    }
+  ]
+}
