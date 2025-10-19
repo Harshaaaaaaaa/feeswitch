@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useWallet } from '@/hooks/useWallet';
 import { useReadContract } from '@/hooks/useReadContract';
 import { useWriteContractLifecycle } from '@/hooks/useWriteContractLifecycle';
@@ -12,7 +12,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { toast } from 'sonner';
 import { formatUnits, parseUnits, type Address } from 'viem';
-import { sdk } from '@/lib/farcaster';
 
 const CHAIN_ID = 8453;
 const POSITION_MANAGER_ADDRESS = '0x03a520b32c04bf3beef7beb72e919cf822ed34f1' as Address;
@@ -50,8 +49,6 @@ function priceToTick(price: number): number {
   return Math.floor(Math.log(price) / Math.log(1.0001));
 }
 
-
-
 function nearestUsableTick(tick: number, tickSpacing: number): number {
   return Math.round(tick / tickSpacing) * tickSpacing;
 }
@@ -59,9 +56,7 @@ function nearestUsableTick(tick: number, tickSpacing: number): number {
 export default function UniswapV3LP() {
   const { address, isConnected, connect } = useWallet();
   const [activeTab, setActiveTab] = useState('positions');
-  const [isFarcasterContext, setIsFarcasterContext] = useState(false);
   
-
   const [feeTier, setFeeTier] = useState(3000);
   const [amount0, setAmount0] = useState('');
   const [amount1, setAmount1] = useState('');
@@ -73,27 +68,6 @@ export default function UniswapV3LP() {
   const [token1Decimals, setToken1Decimals] = useState(6);
   const [token0Symbol, setToken0Symbol] = useState('WETH');
   const [token1Symbol, setToken1Symbol] = useState('USDC');
-
-  useEffect(() => {
-    const initFarcaster = async () => {
-      try {
-        await sdk.actions.ready();
-        const context = await sdk.context;
-        if (context) {
-          setIsFarcasterContext(true);
-          console.log('Running in Farcaster mini app:', context);
-        }
-      } catch (error) {
-        console.log('Not in Farcaster context', error);
-        try {
-          await sdk.actions.ready();
-        } catch (readyError) {
-          console.log('Ready failed', readyError);
-        }
-      }
-    };
-    initFarcaster();
-  }, []);
 
   const { data: balance } = useReadContract({
     contractAddress: POSITION_MANAGER_ADDRESS,
@@ -151,13 +125,13 @@ export default function UniswapV3LP() {
   });
 
   const { write: approveWETH, state: approveWETHState } = useWriteContractLifecycle({
-    successMessage: 'WETH approved',
-    errorMessage: 'Failed to approve WETH',
+    successMessage: 'Token approved',
+    errorMessage: 'Failed to approve token',
   });
 
   const { write: approveUSDC, state: approveUSDCState } = useWriteContractLifecycle({
-    successMessage: 'USDC approved',
-    errorMessage: 'Failed to approve USDC',
+    successMessage: 'Token approved',
+    errorMessage: 'Failed to approve token',
   });
 
   const { write: mintPosition, state: mintState } = useWriteContractLifecycle({
@@ -287,9 +261,6 @@ export default function UniswapV3LP() {
           <div>
             <h1 className="text-3xl font-bold">Fee Switch</h1>
             <p className="text-muted-foreground">Manage concentrated liquidity positions</p>
-            {isFarcasterContext && (
-              <div className="text-xs text-accent mt-1">Running in Farcaster</div>
-            )}
           </div>
           <div className="text-right text-sm">
             <div className="text-muted-foreground">Base</div>
@@ -333,7 +304,7 @@ export default function UniswapV3LP() {
               <CardContent>
                 {balance && Number(balance) > 0 ? (
                   <div className="space-y-4">
-                     {positionData && tokenOfOwnerByIndex !== undefined && (
+                    {positionData && tokenOfOwnerByIndex !== undefined && (
                       <div className="space-y-4 p-4 border rounded-lg bg-card">
                         <div className="flex items-center justify-between">
                           <div>
