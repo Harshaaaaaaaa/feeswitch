@@ -1,0 +1,15 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIn0",
+    "payload": "eyJkb21haW4iOiJ5b3VyLWRvbWFpbi5jb20ifQ",
+    "signature": "MHg..."
+  },
+  "frame": {
+    "version": "next",
+    "name": "Fee Switch",
+    "iconUrl": "https://your-domain.com/icon.png",
+    "splashImageUrl": "https://your-domain.com/splash.png",
+    "splashBackgroundColor": "#1a1a1a",
+    "homeUrl": "https://your-domain.com"
+  }
+}

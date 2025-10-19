@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "🚀 Building your Uniswap V3 LP Manager..."
+bun run build
+
+echo ""
+echo "✅ Build complete!"
+echo ""
+echo "📦 Your app is ready in the 'dist' folder"
+echo ""
+echo "🌐 Next steps to deploy:"
+echo ""
+echo "Option 1 - Vercel (Recommended):"
+echo "  1. Go to https://vercel.com"
+echo "  2. Sign up with GitHub"
+echo "  3. Click 'Add New Project'"
+echo "  4. Import this repository"
+echo "  5. Click 'Deploy'"
+echo ""
+echo "Option 2 - Netlify Drop:"
+echo "  1. Go to https://app.netlify.com/drop"
+echo "  2. Drag the 'dist' folder to the page"
+echo "  3. Get instant URL"
+echo ""
+echo "After deployment, register at: https://warpcast.com/~/developers"

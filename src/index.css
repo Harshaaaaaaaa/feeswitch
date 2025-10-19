@@ -1,0 +1,20 @@
+/* theme-fonts-start */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;700&family=Geist+Mono:wght@400;700&display=swap");
+/* theme-fonts-end */
+
+
+@import 'tailwindcss';
+
+@import './themes/brutal.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
