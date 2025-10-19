@@ -77,15 +77,19 @@ export default function UniswapV3LP() {
   useEffect(() => {
     const initFarcaster = async () => {
       try {
+        await sdk.actions.ready();
         const context = await sdk.context;
         if (context) {
           setIsFarcasterContext(true);
           console.log('Running in Farcaster mini app:', context);
         }
-        await sdk.actions.ready();
-      } catch {
-        console.log('Not in Farcaster context');
-        await sdk.actions.ready();
+      } catch (error) {
+        console.log('Not in Farcaster context', error);
+        try {
+          await sdk.actions.ready();
+        } catch (readyError) {
+          console.log('Ready failed', readyError);
+        }
       }
     };
     initFarcaster();
